@@ -20,11 +20,16 @@ from email_preprocess import preprocess
 features_train, features_test, labels_train, labels_test = preprocess()
 
 
+print features_train.shape
 
-
+#sys.exit(0)
 #########################################################
 ### your code goes here ###
+from sklearn.tree import DecisionTreeClassifier
+clf = DecisionTreeClassifier(min_samples_split=40)
+clf.fit(features_train, labels_train)
 
+print clf.score(features_test, labels_test)
 
 #########################################################
 

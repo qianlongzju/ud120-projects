@@ -23,7 +23,7 @@ import logging
 import pylab as pl
 import numpy as np
 
-from sklearn.cross_validation import train_test_split
+from sklearn.model_selection import train_test_split
 from sklearn.datasets import fetch_lfw_people
 from sklearn.grid_search import GridSearchCV
 from sklearn.metrics import classification_report
@@ -66,12 +66,20 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random
 ###############################################################################
 # Compute a PCA (eigenfaces) on the face dataset (treated as unlabeled
 # dataset): unsupervised feature extraction / dimensionality reduction
+#[10, 15, 25, 50, 100, 250]
 n_components = 150
 
 print "Extracting the top %d eigenfaces from %d faces" % (n_components, X_train.shape[0])
 t0 = time()
 pca = RandomizedPCA(n_components=n_components, whiten=True).fit(X_train)
+#pca = PCA(svd_solver='randomized', n_components=n_components, whiten=True).fit(X_train)
 print "done in %0.3fs" % (time() - t0)
+
+print pca.components_[0]
+print len(pca.components_[0])
+print pca.components_[1]
+print 'variance explained', pca.explained_variance_[:2]
+print 'variance ratio explained', pca.explained_variance_ratio_[:2]
 
 eigenfaces = pca.components_.reshape((n_components, h, w))
 
